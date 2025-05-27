@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About {{ author.fullname }}</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.42857143;
+            color: #333333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .row::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .col-md-8, .col-md-4, .col-md-12 {
+            position: relative;
+            min-height: 1px;
+            padding-left: 15px;
+            padding-right: 15px;
+            float: left;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .col-md-4 { width: 33.33333333%; }
+            .col-md-8 { width: 66.66666667%; }
+        }
+
+        .header-box {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header-box h1 {
+            text-align: left;
+            margin-bottom: 0;
+            padding-top: 0;
+        }
+        .header-box p {
+            text-align: right;
+            margin-top: 15px;
+        }
+        .header-box p a {
+            font-size: 1.1em;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        .author-details {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .author-details h3 {
+            font-size: 2.2em;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            display: inline-block; /* Щоб лінія була під текстом */
+        }
+
+        .author-details p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .author-details p strong {
+            color: #555;
+            margin-right: 5px;
+        }
+
+        .author-description {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px dashed #ccc;
+        }
+
+        .author-description p {
+            font-size: 1.05em;
+            color: #444;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row header-box">
+            <div class="col-md-8">
+                <h1>
+                    <a href="/" style="text-decoration: none; color: #333;">Quotes to Scrape</a>
+                </h1>
+            </div>
+            <div class="col-md-4">
+                <p>
+                    <a href="/login">Login</a>
+                    <a href="/register" style="margin-left: 10px;">Register</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="author-details">
+                    <h3>{{ author.fullname }}</h3>
+                    <p>
+                        <strong>Born:</strong>
+                        <span class="author-born-date">{{ author.born_date }}</span>
+                        in
+                        <span class="author-born-location">{{ author.born_location }}</span>
+                    </p>
+                    <div class="author-description">
+                        <p><strong>Description:</strong></p>
+                        <p>{{ author.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Quotes to Scrape</p>
+    </footer>
+</body>
+</html>

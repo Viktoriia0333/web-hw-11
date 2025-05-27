@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotes to Scrape</title>
+
+    <style>
+        .quote {
+            padding: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #333333;
+            border-radius: 5px;
+            box-shadow: 2px 2px 3px #333333;
+            background-color: #ffffff;
+        }
+
+        .quote p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-family: Georgia, serif;
+        }
+
+        .quote .author {
+            text-align: right;
+            font-style: italic;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        .quote .author a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .quote .author a:hover {
+            text-decoration: underline;
+        }
+
+        .quote .tags {
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .quote .tags span {
+            font-weight: bold;
+        }
+
+        .quote .tags .tag {
+            display: inline-block;
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 3px 8px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.85em;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .quote .tags .tag:hover {
+            background-color: #c0deed;
+            color: #083b43;
+        }
+
+        body {
+            font-family: sans-serif;
+            font-size: 16px;
+            line-height: 1.42857143;
+            color: #333333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .row::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .col-md-8, .col-md-4, .col-md-12 {
+            position: relative;
+            min-height: 1px;
+            padding-left: 15px;
+            padding-right: 15px;
+            float: left;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .col-md-4 { width: 33.33333333%; }
+            .col-md-8 { width: 66.66666667%; }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 40px;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .header-box {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header-box h1 {
+            text-align: left;
+            margin-bottom: 0;
+            padding-top: 0;
+        }
+        .header-box p {
+            text-align: right;
+            margin-top: 15px;
+        }
+        .header-box p a {
+            font-size: 1.1em;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+            font-size: 0.9em;
+        }
+
+        .tags-box {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        .tags-box h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .tags-box .tag-item {
+            margin-bottom: 10px;
+            display: block;
+        }
+        .tags-box .tag-item a {
+            text-decoration: none;
+            color: #007bff;
+            transition: color 0.3s ease;
+            font-size: 16px;
+        }
+        .tags-box .tag-item a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+        .add-links {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .add-links a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .add-links a:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row header-box">
+            <div class="col-md-8">
+                <h1>
+                    <a href="/" style="text-decoration: none; color: #333;">Quotes to Scrape</a>
+                </h1>
+            </div>
+            <div class="col-md-4">
+                <p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}" style="margin-left: 10px;">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'register' %}" style="margin-left: 10px;">Register</a>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            <div class="add-links">
+                <a href="{% url 'add_author' %}">Додати нового автора</a>
+                <a href="{% url 'add_quote' %}">Додати нову цитату</a>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-8">
+                {% for item in quotes %}
+                    <div class="col-md-12">
+                        <div class="quote">
+                            <p>{{ item.quote }}</p>
+                            <div class="author">
+                                by <a href="{% url 'author_detail' pk=item.author.id %}">{{ item.author.fullname }}</a>
+                                (<a href="{% url 'author_detail' pk=item.author.id %}">about</a>)
+                            </div>
+                            <div class="tags">
+                                <span>Tags:</span>
+                                {% if item.tags_processed %}
+                                    {% for tag in item.tags_processed %}
+                                        <a class="tag" href="{% url 'tag_quotes' tag_name=tag %}">{{ tag }}</a>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-md-12">
+                        <p>Наразі немає цитат для відображення.</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-md-4 tags-box">
+                <h2>Top Ten Tags</h2>
+                {% if top_ten_tags %}
+                    {% for tag_item in top_ten_tags %}
+                        <span class="tag-item">
+                            <a href="{% url 'tag_quotes' tag_name=tag_item.name %}">{{ tag_item.name }}</a>
+                        </span>
+                    {% endfor %}
+                {% else %}
+                    <p>Немає тегів для відображення.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2025 Quotes to Scrape</p>
+    </footer>
+</body>
+</html>
