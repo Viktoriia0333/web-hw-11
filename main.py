@@ -1,11 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 
-from routers import contacts
-from routers import birthdays
+from routers import contacts, auth, birthdays
 
 app = FastAPI(title="Contacts API")
 
+app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(contacts.router, prefix="/api/contacts", tags=["Contacts"])
 app.include_router(birthdays.router, prefix="/api/birthdays", tags=["Birthdays"])
 
