@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 import models
 from database import SessionLocal
 
-SECRET_KEY = "your-secret-key"
+SECRET_KEY = "secret-key"
 ALGORITHM = "HS256"
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 

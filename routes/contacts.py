@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-
+from slowapi import Limiter
 import models, schemas
 from database import SessionLocal
 from dependencies import get_current_user
+from fastapi import APIRouter, Depends
+from fastapi_limiter.depends import RateLimiter
 
 router = APIRouter()
 
@@ -16,7 +18,7 @@ def get_db():
         db.close()
 
 
-@router.post("/", response_model=schemas.ContactOut, status_code=201)
+@router.post("/contacts", dependencies=[Depends(RateLimiter(times=2, seconds=60))])
 def create_contact(contact: schemas.ContactCreate, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
     db_contact = models.Contact(**contact.dict(), owner_id=user.id)
     db.add(db_contact)
