@@ -6,6 +6,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .models import Author, Quote
 from .forms import AuthorForm, QuoteForm
+from django.contrib.auth.views import PasswordResetView
+from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 def home(request):
@@ -58,7 +61,7 @@ def register_view(request):
             return redirect('login')
     else:
         form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'registration/register.html', {'form': form})
 
 
 def login_view(request):
@@ -128,3 +131,10 @@ def tag_quotes(request, tag_name):
         'selected_tag': tag_name,
     })
 
+
+class MyPasswordResetView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'registration/password_reset_form.html'
+    email_template_name = 'registration/password_reset_email.html'
+    success_url = reverse_lazy('password_reset_done')
+    subject_template_name = 'registration/password_reset_subject.txt'
+    success_message = "An email with instructions to reset your password has been sent to %(email)s."
